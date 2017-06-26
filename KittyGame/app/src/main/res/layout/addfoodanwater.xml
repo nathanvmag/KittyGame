@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="173dp"
+        app:srcCompat="@drawable/pao_comida_pp"
+        android:id="@+id/bread"
+        android:scaleType="fitCenter" />
+
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="173dp"
+        app:srcCompat="@drawable/agua_bebida_pp"
+        android:id="@+id/water"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:scaleType="fitCenter" />
+
+    <Button
+        android:text="Alimentar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="24dp"
+        android:id="@+id/addFood"
+        android:layout_above="@+id/water"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:text="100"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/watertx"
+        android:textSize="20sp"
+        android:layout_above="@+id/addwater"
+        android:layout_alignLeft="@+id/foodtx"
+        android:layout_alignStart="@+id/foodtx" />
+
+    <Button
+        android:text="Voltar a Kitty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="51dp"
+        android:id="@+id/back" />
+
+    <Button
+        android:text="Hidratar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:id="@+id/addwater"
+        android:layout_alignBottom="@+id/water"
+        android:layout_alignLeft="@+id/addFood"
+        android:layout_alignStart="@+id/addFood" />
+
+    <TextView
+        android:text="100"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="11dp"
+        android:id="@+id/foodtx"
+        android:textSize="20sp"
+        android:layout_above="@+id/addFood"
+        android:layout_toRightOf="@+id/back"
+        android:layout_toEndOf="@+id/back"
+        android:layout_marginLeft="14dp"
+        android:layout_marginStart="14dp" />
+</RelativeLayout>

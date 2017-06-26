@@ -88,7 +88,9 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
         if (mBound) {
             unbindService(mConnection);
             mBound = false;
+
         }
+        editor.commit();
     }
     void ServiceStart()
     {
@@ -102,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
         }
         else {
             bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
-            Toast.makeText(this, "Bind service", Toast.LENGTH_SHORT).show();
+
            // if (mBound)mService.count=0;
         }
     }
@@ -125,6 +127,7 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
             MonsterService.LocalBinder binder = (MonsterService.LocalBinder) service;
             mService = binder.getService();
             mBound = true;
+            Toast.makeText(this, "Bind service", Toast.LENGTH_SHORT).show();
 
 
         }
