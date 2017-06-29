@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
     Bitmap bellowMorto;
     SharedPreferences sp ;
     SharedPreferences.Editor editor;
+    ImageView morefood,morewater;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         intent  = new Intent(this, MonsterService.class);
@@ -51,24 +52,58 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
 
             }
         });*/
+
         foodtext = (TextView)findViewById(R.id.foodText);
         watertext = (TextView)findViewById(R.id.waterText);
         Bellow = (ImageView)findViewById(R.id.MonsterImage);
         Restart= (Button)findViewById(R.id.Restart);
+        morefood = (ImageView)findViewById(R.id.morefood);
+        morewater = (ImageView)findViewById(R.id.morewater);
         bellowVivo = BitmapFactory.decodeResource(getResources(), R.drawable.bellow_vivo_pp);
         bellowMorto = BitmapFactory.decodeResource(getResources(), R.drawable.bellow_morto_pp);
          sp = getSharedPreferences("prefs", Activity.MODE_PRIVATE);
          editor = sp.edit();
+
+
         Restart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ServiceStart();
+                //ServiceStart();
+                mService.water=100;
+                mService.food=100;
                 editor.putInt("food",100);
                 editor.putInt("water",100);
                 editor.commit();
                 Restart.setVisibility(View.INVISIBLE);
                 Bellow.setImageBitmap(bellowVivo);
 
+            }
+        });
+        Bitmap b = BitmapFactory.decodeResource(getResources(),R.drawable.plus);
+        morefood.setImageBitmap(b);
+        morewater.setImageBitmap(b);
+
+        morefood.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mBound){
+                    if(mService.food<100){
+                        mService.food += 5;
+                        if (mService.food>100)mService.food=100;
+                        Log.d("B",""+mService.food);
+                    }}
+            }
+        });
+
+       morewater.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mBound){
+                    if(mService.water<100){
+                        mService.water += 5;
+                        if (mService.water>100)mService.water=100;
+                        Log.d("B",""+mService.water);
+                    }}
             }
         });
         handler = new Handler();
@@ -92,6 +127,18 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
         }
         editor.commit();
     }
+    @Override
+    public void onPause()
+    {
+        super.onPause();
+
+    }
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+
+    }
     void ServiceStart()
     {
         if(!isMyServiceRunning(MonsterService.class))
@@ -101,11 +148,13 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
             bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
            // if (mBound)mService.count=0;
             Toast.makeText(this, "Start Service", Toast.LENGTH_SHORT).show();
+            Log.d("start service", "STARTTTTTTTTTTTTTTTTTTTTTTT");
+
         }
         else {
             bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
-
            // if (mBound)mService.count=0;
+            Log.d("bind service", "BINDDDDDDDDDDDDDDDDDDDDDDDDDDD");
         }
     }
 
@@ -115,10 +164,13 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
 
         for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE))
         {
-            if (serviceClass.getName().equals(service.service.getClassName())) return true;
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
         }
         return false;
     }
+
 
         @Override
         public void onServiceConnected(ComponentName className,
@@ -128,6 +180,7 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
             mService = binder.getService();
             mBound = true;
             Toast.makeText(this, "Bind service", Toast.LENGTH_SHORT).show();
+            Log.d("bind service", "BINDDDDDDDDDDDD222222222222222222222222222");
 
 
         }
@@ -152,9 +205,6 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
                 editor.putInt("food",mService.food);
                 editor.putInt("water",mService.water);
                 editor.commit();
-                stopService(intent);
-                unbindService(mConnection);
-                mBound=false;
             }
         }
     }
